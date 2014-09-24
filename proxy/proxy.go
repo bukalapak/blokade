@@ -25,3 +25,8 @@ func IsLocalhost() goproxy.ReqConditionFunc {
 	}
 }
 
+func NotFoundHandler() goproxy.ReqHandler {
+	return goproxy.FuncReqHandler(func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
+		return req, goproxy.NewResponse(req, goproxy.ContentTypeText, http.StatusNotFound, "NOT FOUND!")
+	})
+}

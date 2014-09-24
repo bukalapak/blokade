@@ -18,11 +18,7 @@ func main() {
 	proxy.Verbose = *verbose
 
 	proxy.OnRequest().HandleConnect(goproxy.AlwaysReject)
-	proxy.OnRequest(goproxy.Not(bp.IsLocalhost())).DoFunc(
-		func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-			return req, goproxy.NewResponse(req, goproxy.ContentTypeText, http.StatusNotFound, "NOT FOUND!")
-		},
-	)
+	proxy.OnRequest(goproxy.Not(bp.IsLocalhost())).Do(bp.NotFoundHandler())
 
 	log.Fatal(http.ListenAndServe(*address, proxy))
 }
