@@ -3,27 +3,10 @@ package main
 import (
 	"flag"
 	"github.com/elazarl/goproxy"
+	bp "github.com/subosito/blokade/proxy"
 	"log"
 	"net/http"
-	"regexp"
-	"strings"
 )
-
-var isLocal goproxy.ReqConditionFunc = func(req *http.Request, ctx *goproxy.ProxyCtx) bool {
-	host := req.URL.Host
-
-	if strings.Contains(host, ":") {
-		hostPort := strings.Split(host, ":")
-		host = hostPort[0]
-	}
-
-	return host == "::1" ||
-		host == "0:0:0:0:0:0:0:1" ||
-		host == "localhost" ||
-		regexp.MustCompile(`127\.0\.0\.\d+`).MatchString(host) ||
-		strings.Contains(host, "lvh.me") ||
-		strings.Contains(host, "xip.io")
-}
 
 func main() {
 	verbose := flag.Bool("v", false, "verbose mode")
@@ -35,13 +18,9 @@ func main() {
 	proxy.Verbose = *verbose
 
 	proxy.OnRequest().HandleConnect(goproxy.AlwaysReject)
-	proxy.OnRequest().DoFunc(
+	proxy.OnRequest(goproxy.Not(bp.IsLocalhost())).DoFunc(
 		func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
-			if isLocal(req, ctx) {
-				return req, nil
-			} else {
-				return req, goproxy.NewResponse(req, goproxy.ContentTypeText, http.StatusNotFound, "NOT FOUND!")
-			}
+			return req, goproxy.NewResponse(req, goproxy.ContentTypeText, http.StatusNotFound, "NOT FOUND!")
 		},
 	)
 

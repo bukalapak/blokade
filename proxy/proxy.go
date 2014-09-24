@@ -24,3 +24,4 @@ func IsLocalhost() goproxy.ReqConditionFunc {
 			strings.Contains(host, "xip.io")
 	}
 }
+
