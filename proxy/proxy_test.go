@@ -2,6 +2,7 @@ package proxy
 
 import (
 	"github.com/stretchr/testify/assert"
+	"io/ioutil"
 	"net/http"
 	"testing"
 )
@@ -36,4 +37,17 @@ func TestIsLocalhost(t *testing.T) {
 		req, _ := http.NewRequest("GET", data[i], nil)
 		assert.True(t, fn(req, nil))
 	}
+}
+
+func TestNotFoundHandler(t *testing.T) {
+	fn := NotFoundHandler()
+
+	req, _ := http.NewRequest("GET", "http://example.com", nil)
+	_, resp := fn.Handle(req, nil)
+	defer resp.Body.Close()
+
+	b, err := ioutil.ReadAll(resp.Body)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Equal(t, "NOT FOUND!", string(b))
 }
