@@ -1,5 +1,7 @@
 # blokade
 
+[![Build Status](https://travis-ci.org/subosito/blokade.svg?branch=master)](https://travis-ci.org/subosito/blokade)
+
 Simple blocker proxy. It does:
 
 - Allow connection to local server
