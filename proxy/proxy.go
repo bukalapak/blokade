@@ -21,7 +21,8 @@ func IsLocalhost() goproxy.ReqConditionFunc {
 			host == "localhost" ||
 			regexp.MustCompile(`127\.0\.0\.\d+`).MatchString(host) ||
 			strings.Contains(host, "lvh.me") ||
-			strings.Contains(host, "xip.io")
+			strings.Contains(host, "xip.io") ||
+			strings.Contains(host, "local.host")
 	}
 }
 
