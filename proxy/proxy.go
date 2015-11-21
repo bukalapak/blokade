@@ -1,10 +1,11 @@
 package proxy
 
 import (
-	"github.com/elazarl/goproxy"
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/elazarl/goproxy"
 )
 
 func IsLocalhost() goproxy.ReqConditionFunc {
@@ -23,6 +24,12 @@ func IsLocalhost() goproxy.ReqConditionFunc {
 			strings.Contains(host, "lvh.me") ||
 			strings.Contains(host, "xip.io") ||
 			strings.Contains(host, "local.host")
+	}
+}
+
+func IsIgnored(ignoredPath string) goproxy.ReqConditionFunc {
+	return func(req *http.Request, ctx *goproxy.ProxyCtx) bool {
+		return regexp.MustCompile(ignoredPath).MatchString(req.URL.Path)
 	}
 }
 
