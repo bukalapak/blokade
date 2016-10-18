@@ -1,7 +1,20 @@
 language: go
-go: 1.3
-before_script:
-  - go get -v -t ./...
 script:
-  - go test -v ./...
-
+- go test -v ./proxy
+before_deploy:
+- go build -o blokade && tar -czf blokade-$TRAVIS_TAG.linux-amd64.tar.gz blokade
+- GOARCH=386 go build -o blokade && tar -czf blokade-$TRAVIS_TAG.linux-386.tar.gz blokade
+- GOOS=darwin go build -o blokade && tar -czf blokade-$TRAVIS_TAG.darwin-amd64.tar.gz blokade
+- GOOS=windows go build -o blokade.exe && zip blokade-$TRAVIS_TAG.windows-amd64.zip blokade.exe
+deploy:
+  provider: releases
+  api_key:
+    secure: RR4v5cOO1SbTOKiC52rdXFzax5Q/Gpo1u8iYTwd5LJeVdRynD7B1YGJMBqolQHkO2/zyeFubBEyHfySxeOAMYMVnpzJqRa8k9fpjpSwf+OEIl259rSaJlQuyd6e+dpqIr20JtmwajYRGY/CHo75+FCiMZBWzaLyRaOni8wUoopc=
+  file:
+    - blokade-$TRAVIS_TAG.linux-amd64.tar.gz
+    - blokade-$TRAVIS_TAG.linux-386.tar.gz
+    - blokade-$TRAVIS_TAG.darwin-amd64.tar.gz
+    - blokade-$TRAVIS_TAG.windows-amd64.zip
+  skip_cleanup: true
+  on:
+    tags: true
