@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	bp "github.com/bukalapak/blokade/proxy"
 	"github.com/elazarl/goproxy"
-	bp "github.com/subosito/blokade/proxy"
 )
 
 func main() {

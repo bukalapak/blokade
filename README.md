@@ -1,6 +1,6 @@
 # blokade
 
-[![Build Status](https://travis-ci.org/subosito/blokade.svg?branch=master)](https://travis-ci.org/subosito/blokade)
+[![Build Status](https://travis-ci.org/bukalapak/blokade.svg?branch=master)](https://travis-ci.org/bukalapak/blokade)
 
 Simple blocker proxy. It does:
 
@@ -10,24 +10,24 @@ Simple blocker proxy. It does:
 
 ## Installation
 
-You can grab binary application directly on [Release Page](https://github.com/subosito/blokade/releases):
+You can grab binary application directly on [Release Page](https://github.com/bukalapak/blokade/releases):
 
 ```sh
-$ wget https://github.com/subosito/blokade/releases/download/v1.0.0/blokade-v1.0.0.linux-amd64.tar.gz
+$ wget https://github.com/bukalapak/blokade/releases/download/v1.0.0/blokade-v1.0.0.linux-amd64.tar.gz
 $ tar -zxvf blokade-v1.0.0.linux-amd64.tar.gz
 $ ./blokade -h
 ```
 Or, if you have `Go` installed, you can also:
 
 ```sh
-$ go get github.com/subosito/blokade
+$ go get github.com/bukalapak/blokade
 $ blokade
 ```
 
 For Homebrew user, you can do:
 
 ```
-$ brew tap subosito/packages
+$ brew tap bukalapak/packages
 $ brew install blokade
 ```
 
